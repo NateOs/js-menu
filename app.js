@@ -74,9 +74,25 @@ const menu = [
 ];
 
 const sectionCenter = document.querySelector('.section-center')
+const filterBtns = document.querySelectorAll ('.filter-btn')
 
+
+//*OnLoad do this:
 window.addEventListener('DOMContentLoaded', () => {
-  let displayMenu = menu.map((item) => 
+  displayMenuItems(menu)
+})
+
+//*filter items
+filterBtns.forEach((btn) => {
+  btn.addEventListener('click', (e)=> {
+    // let choices = e.currentTarget.innerHTML.toLowerCase() // this works but better is below
+    
+  })
+})
+
+
+const displayMenuItems = (menuItems) => {
+  let displayMenu = menuItems.map((item) => //*cycle all items and do function
     `<article class="menu-item">
     <img src="${item.img}" alt=${item.title} class="photo">
     <div class="item-info">
@@ -90,8 +106,7 @@ window.addEventListener('DOMContentLoaded', () => {
   )
 
   displayMenu = displayMenu.join('')
-  sectionCenter.innerHTML = displayMenu
-})
-
+  sectionCenter.innerHTML = displayMenu //*send to html
+}
 
 
