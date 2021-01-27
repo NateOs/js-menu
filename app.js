@@ -82,39 +82,51 @@ const menu = [
 ];
 
 const sectionCenter = document.querySelector('.section-center')
-const filterBtns = document.querySelectorAll ('.filter-btn')
-
+const btnsContainer = document.querySelector('.btn-container')
 
 //*OnLoad do this:
 window.addEventListener('DOMContentLoaded', () => {
   displayMenuItems(menu)
-
+//return values.push(['all'], whilst comparing common items on menu.category)
   const categories = menu.reduce(
-    (values, item) => {
+    (values, item) => { 
       if (!values.includes(item.category)) {
         values.push(item.category)
       }
       return values
     }, 
-    ['all'])
+    ['all']
+  )
+
+  const categoryBtns = categories.map((category) => {
+    return `<!--generated wt JS-->
+    <button class="filter-btn" type="button" data-id=${category}>${category}</button>`
+  }).join('')
+  
+  btnsContainer.innerHTML = categoryBtns
+  
+//selecting buttons after they have been added to DOM
+  const filterBtns = document.querySelectorAll ('.filter-btn') 
+
+    //*filter items
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      // let choices = e.currentTarget.innerHTML.toLowerCase() // this works but better is below
+      const category = e.currentTarget.dataset.id //* get dataset value of btn
+      console.log(category)
+      //*returns array of items(obj) that are a match for the dataset
+      const menuCategory = menu.filter((menuItem) => menuItem.category === category)
+
+      if (category === 'all') {
+        displayMenuItems(menu)
+      } else {
+        displayMenuItems(menuCategory)
+      }
+    }) 
   })
-
-//*filter items
-filterBtns.forEach((btn) => {
-  btn.addEventListener('click', (e) => {
-    // let choices = e.currentTarget.innerHTML.toLowerCase() // this works but better is below
-    const category = e.currentTarget.dataset.id //* get dataset value of btn
-    // console.log(category)
-    //*returns array of items(obj) that are a match for the dataset
-    const menuCategory = menu.filter((menuItem) => menuItem.category === category)
-
-    if (category === 'all') {
-      displayMenuItems(menu)
-    } else {
-      displayMenuItems(menuCategory)
-    }
-  }) 
 })
+
+
 
 //*takes in array of objects to render
 const displayMenuItems = (menuItems) => {
