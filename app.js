@@ -86,11 +86,20 @@ window.addEventListener('DOMContentLoaded', () => {
 filterBtns.forEach((btn) => {
   btn.addEventListener('click', (e)=> {
     // let choices = e.currentTarget.innerHTML.toLowerCase() // this works but better is below
-    
-  })
+    let category = e.currentTarget.dataset.id //* get dataset value of btn
+    // console.log(category)
+    //*returns array of items(obj) that are a match for the dataset
+    const menuCategory = menu.filter((menuItem) => menuItem.category === category)
+
+    if (category === 'all') {
+      displayMenuItems(menu)
+    } else {
+      displayMenuItems(menuCategory)
+    }
+  }) 
 })
 
-
+//*takes in array of objects to render
 const displayMenuItems = (menuItems) => {
   let displayMenu = menuItems.map((item) => //*cycle all items and do function
     `<article class="menu-item">
